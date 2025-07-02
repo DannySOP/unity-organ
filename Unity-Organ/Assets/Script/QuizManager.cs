@@ -12,8 +12,10 @@ public class Question {
 
 public class QuizManager : MonoBehaviour {
     [Header("Quiz Data")]
-    public Question[] questions;
+    public Question[] questionsTopik1;
+    public Question[] questionsTopik2;
 
+    private Question[] questions;
     private int currentQuestionIndex = 0;
     private int score = 0;
 
@@ -23,71 +25,109 @@ public class QuizManager : MonoBehaviour {
     public Slider sliderProgress;
     public TMP_Text txtFinalScore;
     public TMP_Text txtAward;
-    public Image medalImage;
-    public Sprite goldSprite;
-    public Sprite silverSprite;
-    public Sprite bronzeSprite;
+
     public GameObject imageBronze;
     public GameObject imageSilver;
     public GameObject imageGold;
 
-    public GameObject panelResult;
+    public Button buttonNext;
+
+    public GameObject panelMainMenu;
     public GameObject panelQuiz;
+    public GameObject panelResult;
+
     public TMP_Text txtWelcome;
 
-    // TOMBOL-TOMBOL JAWABAN
     public Button[] answerButtons;
 
-    private void Start() {
+    private int selectedAnswerIndex = -1;
+    private bool answerSelected = false;
+
+    void Start() {
         string currentUser = PlayerPrefs.GetString("currentUser", "User");
         txtWelcome.text = "Selamat datang, " + currentUser + "!";
 
+        // Awal hanya tampilkan menu utama
+        panelMainMenu.SetActive(true);
+        panelQuiz.SetActive(false);
         panelResult.SetActive(false);
+    }
+
+    // Panggil fungsi ini lewat tombol menu
+    public void StartQuizTopik1() {
+        StartQuiz(questionsTopik1);
+    }
+
+    public void StartQuizTopik2() {
+        StartQuiz(questionsTopik2);
+    }
+
+    public void StartQuiz(Question[] selectedQuestions) {
+        questions = selectedQuestions;
+        currentQuestionIndex = 0;
+        score = 0;
+        answerSelected = false;
+        selectedAnswerIndex = -1;
+
+        panelMainMenu.SetActive(false);
         panelQuiz.SetActive(true);
+        panelResult.SetActive(false);
 
         sliderProgress.maxValue = questions.Length;
         sliderProgress.value = 0;
+
+        foreach (Button btn in answerButtons) {
+            btn.interactable = true;
+            btn.image.color = Color.white;
+        }
 
         DisplayQuestion();
         UpdateScore();
     }
 
-    public void SelectAnswer(int index)   // 👈 FUNGSI INI!
-    {
-        // Reset semua warna tombol
-        foreach (Button btn in answerButtons) {
-            btn.image.color = Color.white;
-            btn.interactable = true;
+    public void SelectAnswer(int index) {
+        if (answerSelected)
+            return;
+
+        selectedAnswerIndex = index;
+        answerSelected = true;
+
+        for (int i = 0; i < answerButtons.Length; i++) {
+            if (i == index) {
+                if (i == questions[currentQuestionIndex].correctAnswerIndex) {
+                    answerButtons[i].image.color = Color.green;
+                } else {
+                    answerButtons[i].image.color = Color.red;
+                }
+            } else {
+                answerButtons[i].image.color = Color.white;
+            }
+
+            answerButtons[i].interactable = false;
         }
 
-        // Warna tombol yang dipilih
-        answerButtons[index].image.color = Color.green;
+        buttonNext.gameObject.SetActive(true);
+    }
 
-        // Disable semua tombol
-        foreach (Button btn in answerButtons) {
-            btn.interactable = false;
-        }
-
-        // Cek jawaban
-        if (index == questions[currentQuestionIndex].correctAnswerIndex) {
+    public void NextQuestion() {
+        if (selectedAnswerIndex == questions[currentQuestionIndex].correctAnswerIndex) {
             score += 10;
         }
 
         currentQuestionIndex++;
+        selectedAnswerIndex = -1;
+        answerSelected = false;
+        buttonNext.gameObject.SetActive(false);
 
-        // Tunggu sebentar sebelum next soal
-        Invoke(nameof(NextQuestion), 1.0f);
-    }
-
-    void NextQuestion() {
-        if (currentQuestionIndex >= questions.Length) {
-            ShowResult();
-        } else {
+        if (currentQuestionIndex < questions.Length) {
             DisplayQuestion();
+
             foreach (Button btn in answerButtons) {
-                btn.image.color = Color.white;
                 btn.interactable = true;
+                btn.image.color = Color.white;
             }
+        } else {
+            ShowResult();
         }
     }
 
@@ -114,7 +154,6 @@ public class QuizManager : MonoBehaviour {
 
         txtFinalScore.text = score.ToString();
 
-        // Matikan semua medal dulu
         imageBronze.SetActive(false);
         imageSilver.SetActive(false);
         imageGold.SetActive(false);
@@ -134,26 +173,15 @@ public class QuizManager : MonoBehaviour {
         }
     }
 
-
-
     public void Retry() {
-        currentQuestionIndex = 0;
-        score = 0;
-
-        panelResult.SetActive(false);
-        panelQuiz.SetActive(true);
-        sliderProgress.value = 0;
-
-        // ✅ Aktifkan lagi tombol jawaban
-        foreach (Button btn in answerButtons) {
-            btn.interactable = true;
-            btn.image.color = Color.white;
-        }
-
-        DisplayQuestion();
-        UpdateScore();
+        StartQuiz(questions);
     }
 
+    public void BackToMenu() {
+        panelResult.SetActive(false);
+        panelQuiz.SetActive(false);
+        panelMainMenu.SetActive(true);
+    }
 
     public void Logout() {
         SceneManager.LoadScene("LoginScene");
