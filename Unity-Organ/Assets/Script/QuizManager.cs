@@ -23,6 +23,14 @@ public class QuizManager : MonoBehaviour {
     public Slider sliderProgress;
     public TMP_Text txtFinalScore;
     public TMP_Text txtAward;
+    public Image medalImage;
+    public Sprite goldSprite;
+    public Sprite silverSprite;
+    public Sprite bronzeSprite;
+    public GameObject imageBronze;
+    public GameObject imageSilver;
+    public GameObject imageGold;
+
     public GameObject panelResult;
     public GameObject panelQuiz;
     public TMP_Text txtWelcome;
@@ -104,26 +112,48 @@ public class QuizManager : MonoBehaviour {
         panelQuiz.SetActive(false);
         panelResult.SetActive(true);
 
-        txtFinalScore.text = "Skor Akhir: " + score.ToString();
+        txtFinalScore.text = score.ToString();
 
-        if (score >= questions.Length * 10 * 0.8f) {
+        // Matikan semua medal dulu
+        imageBronze.SetActive(false);
+        imageSilver.SetActive(false);
+        imageGold.SetActive(false);
+
+        if (score >= 80) {
             txtAward.text = "🏅 Gold!";
-        } else if (score >= questions.Length * 10 * 0.5f) {
+            imageBronze.SetActive(true);
+            imageSilver.SetActive(true);
+            imageGold.SetActive(true);
+        } else if (score >= 50) {
             txtAward.text = "🥈 Silver!";
+            imageBronze.SetActive(true);
+            imageSilver.SetActive(true);
         } else {
             txtAward.text = "🥉 Bronze!";
+            imageBronze.SetActive(true);
         }
     }
+
+
 
     public void Retry() {
         currentQuestionIndex = 0;
         score = 0;
+
         panelResult.SetActive(false);
         panelQuiz.SetActive(true);
         sliderProgress.value = 0;
+
+        // ✅ Aktifkan lagi tombol jawaban
+        foreach (Button btn in answerButtons) {
+            btn.interactable = true;
+            btn.image.color = Color.white;
+        }
+
         DisplayQuestion();
         UpdateScore();
     }
+
 
     public void Logout() {
         SceneManager.LoadScene("LoginScene");
