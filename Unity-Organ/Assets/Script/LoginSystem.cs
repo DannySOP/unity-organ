@@ -15,7 +15,7 @@ public class LoginSystem : MonoBehaviour {
         string password = inputPassword.text;
 
         if (username == "" || password == "") {
-            txtStatus.text = "Username dan Password wajib diisi!";
+            txtStatus.text = "Username dan Password wajib diisi terlebih dahulu! ";
             return;
         }
 

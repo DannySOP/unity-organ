@@ -48,9 +48,9 @@ public class QuizManager : MonoBehaviour {
         txtWelcome.text = "Selamat datang, " + currentUser + "!";
 
         // Awal hanya tampilkan menu utama
-        panelMainMenu.SetActive(true);
-        panelQuiz.SetActive(false);
-        panelResult.SetActive(false);
+        panelQuiz.SetActive(false);   // quiz panel mati dulu
+        panelResult.SetActive(false); // result panel mati dulu
+        
     }
 
     // Panggil fungsi ini lewat tombol menu
