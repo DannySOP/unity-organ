@@ -58,4 +58,10 @@ public class ZoomController : MonoBehaviour
         paruParuContainer.localScale = Vector3.one * currentScale;
         zoomSlider.value = currentScale;
     }
+
+    public void ResetZoom() {
+        currentScale = 0.3127224f; // atau nilai default sesuai preferensi kamu
+        paruParuContainer.localScale = Vector3.one * currentScale;
+        zoomSlider.value = currentScale;
+    }
 }
