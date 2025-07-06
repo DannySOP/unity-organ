@@ -43,17 +43,18 @@ public class QuizManager : MonoBehaviour {
     private int selectedAnswerIndex = -1;
     private bool answerSelected = false;
 
+    [Header("Audio")]
+    public AudioSource sfxSource;
+
     void Start() {
         string currentUser = PlayerPrefs.GetString("currentUser", "User");
         txtWelcome.text = "Selamat datang, " + currentUser + "!";
 
         // Awal hanya tampilkan menu utama
-        panelQuiz.SetActive(false);   // quiz panel mati dulu
-        panelResult.SetActive(false); // result panel mati dulu
-        
+        panelQuiz.SetActive(false);
+        panelResult.SetActive(false);
     }
 
-    // Panggil fungsi ini lewat tombol menu
     public void StartQuizTopik1() {
         StartQuiz(questionsTopik1);
     }
@@ -170,6 +171,11 @@ public class QuizManager : MonoBehaviour {
         } else {
             txtAward.text = "🥉 Bronze!";
             imageBronze.SetActive(true);
+        }
+
+        // Putar sfx kalau sudah diassign
+        if (sfxSource != null) {
+            sfxSource.Play();
         }
     }
 
