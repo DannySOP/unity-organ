@@ -2968,7 +2968,7 @@ MonoBehaviour:
   paruParuContainer: {fileID: 988089978}
   zoomSlider: {fileID: 1891634233}
   minScale: 1
-  maxScale: 1.356645
+  maxScale: 1.23
   zoomSpeed: 0.5
 --- !u!4 &169616728
 Transform:
@@ -9934,8 +9934,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -17.806, y: 147}
-  m_SizeDelta: {x: 614.735, y: 72.194}
+  m_AnchoredPosition: {x: -3.927, y: 125}
+  m_SizeDelta: {x: 634.105, y: 72.194}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &877976621
 MonoBehaviour:
@@ -9993,8 +9993,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -12419,7 +12419,7 @@ Transform:
   m_GameObject: {fileID: 1159883095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0036942102, y: 1.0227566, z: -9.039798}
+  m_LocalPosition: {x: 0.0036942102, y: 1.074, z: -9.039798}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20240,7 +20240,7 @@ MonoBehaviour:
   paruParuContainer: {fileID: 1159883096}
   zoomSlider: {fileID: 165796734}
   minScale: 1
-  maxScale: 1.356645
+  maxScale: 1.23
   zoomSpeed: 0.5
 --- !u!4 &1870820542
 Transform:
